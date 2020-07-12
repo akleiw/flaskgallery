@@ -8,12 +8,16 @@ app = Flask(__name__)
 
 app.config["DEBUG"] = True
 
-SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-    username="pilarski",
-    password="passformysql",
-    hostname="pilarski.mysql.pythonanywhere-services.com",
-    databasename="pilarski$comments",
-)
+if __name__ == '__main__':
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////Users/akleiw/Projects/pythonanywhere/test.sqlite'
+else:
+    SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
+        username="pilarski",
+        password="passformysql",
+        hostname="pilarski.mysql.pythonanywhere-services.com",
+        databasename="pilarski$comments",
+    )
+
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -33,12 +37,10 @@ def index():
     if request.method == "GET":
         return render_template("main_page.html", comments=Comment.query.all())
     else:
-        comment = Comment(content = request.form["contents"])
+        comment = Comment(content=request.form["contents"])
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('index'))
-
-
 
 
 if __name__ == '__main__':
