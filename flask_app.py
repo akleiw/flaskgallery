@@ -3,7 +3,7 @@
 
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, UserMixin, logout_user, login_required
+from flask_login import login_user, LoginManager, UserMixin, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
@@ -68,9 +68,10 @@ def index():
     if request.method == "GET":
         return render_template("main_page.html", comments=Comment.query.all())
     else:
-        comment = Comment(content=request.form["contents"])
-        db.session.add(comment)
-        db.session.commit()
+        if current_user.is_authenticated:
+            comment = Comment(content=request.form["contents"])
+            db.session.add(comment)
+            db.session.commit()
         return redirect(url_for('index'))
 
 
