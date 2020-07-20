@@ -7,6 +7,12 @@ from flask_login import login_user, LoginManager, UserMixin, logout_user, login_
 from werkzeug.security import check_password_hash
 from datetime import datetime
 from flask_migrate import Migrate
+from gphotospy import authorize
+from gphotospy.album import Album
+
+import os
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+
 
 app = Flask(__name__)
 
@@ -26,12 +32,20 @@ app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+CLIENT_SECRET = os.path.join(THIS_FOLDER, "gphotos.json")
+
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 app.secret_key = "something only you know"
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+service = authorize.init(CLIENT_SECRET)
+album_manager = Album(service)
+albums = list(album_manager.list())
+
 
 
 class User(UserMixin, db.Model):
@@ -74,6 +88,11 @@ def index():
             db.session.add(comment)
             db.session.commit()
         return redirect(url_for('index'))
+
+@app.route("/gallery")
+def gallery():
+    if request.method == "GET":
+        return render_template("gallery.html", albums=albums)
 
 
 @app.route("/login/", methods=["GET", "POST"])
