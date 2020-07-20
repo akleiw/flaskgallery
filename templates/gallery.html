@@ -4,49 +4,38 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     </head>
 
     <body>
-        <nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <a class="navbar-brand" href="#">My scratchpad</a>
-        <ul class="nav navbar-nav navbar-right">
-        {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('logout') }}">Log out</a></li>
-        {% else %}
-            <li><a href="{{ url_for('login') }}">Log in</a></li>
-        {% endif %}
-        </ul>
-
-    </div>
-</nav>
 
 
 <div class="container">
 
-{% for album in albums %}
-        <div class="row" style="margin-bottom: 1ex">
-            <div>
-                {{ album.get('title') }}
-            </div>
-            <div>
-                <small>
-                    Photos:
-                    {{ album.get('mediaItemsCount') }}
 
-                </small>
+
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Fotografie</h1>
+
+  <hr class="mt-2 mb-5">
+
+
+  <div class="row text-center text-lg-left">
+
+        {% for album in albums %}
+          <div class="col-lg-3 col-md-4 col-6">
+                <a href="#" class="d-block mb-4 h-100">
+                <img class="img-fluid img-thumbnail" src="{{ album.get('coverPhotoBaseUrl')+ "=w300-h300-c" }}" alt="">
+                </a>
             </div>
-        </div>
-{% endfor %}
+
+
+        {% endfor %}
+
+  </div>
+
+
+
+
 
 
 
