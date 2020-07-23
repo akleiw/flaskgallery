@@ -9,6 +9,7 @@ from datetime import datetime
 from flask_migrate import Migrate
 from gphotospy import authorize
 from gphotospy.album import Album
+from gphotospy.media import *
 
 import os
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -44,7 +45,7 @@ login_manager.init_app(app)
 
 service = authorize.init(CLIENT_SECRET)
 album_manager = Album(service)
-albums = list(album_manager.list())
+albums = {a.get('title'): a for a in album_manager.list()}
 
 
 
@@ -78,7 +79,7 @@ class Comment(db.Model):
     commenter = db.relationship('User', foreign_keys=commenter_id)
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/comments", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
         return render_template("main_page.html", comments=Comment.query.all())
@@ -89,10 +90,18 @@ def index():
             db.session.commit()
         return redirect(url_for('index'))
 
-@app.route("/gallery")
+@app.route("/")
 def gallery():
     if request.method == "GET":
-        return render_template("gallery.html", albums=albums)
+        return render_template("gallery.html", albums=albums.values())
+
+@app.route("/a/<album_name>")
+def album(album_name):
+    media_manager = Media(service)
+    album_id = albums[album_name].get('id')
+    album_media_list = list(media_manager.search_album(album_id))
+    return render_template("album.html", title=album_name, photos = album_media_list)
+
 
 
 @app.route("/login/", methods=["GET", "POST"])

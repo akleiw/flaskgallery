@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>MP Gallery</title>
+        <title>{{ title }}</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,18 +14,17 @@
 
 
 
-  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Fotografie</h1>
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">{{ title }}</h1>
 
   <hr class="mt-2 mb-5">
 
 
   <div class="row text-center text-lg-left">
 
-        {% for album in albums %}
+          {% for photo in photos %}
           <div class="col-lg-3 col-md-4 col-6 mb-4">
-                <a href="/a/{{ album.get('title') }}" class="d-block">
-                <img class="img-fluid img-thumbnail" src="{{ album.get('coverPhotoBaseUrl')+ "=w300-h200-c" }}" alt="">
-                <div class="d-bock mb4">{{ album.get('title') }}</div>
+                <a href="{{ photo.get('baseUrl')+ "=w1500-h1000" }}" class="d-block">
+                <img class="img-fluid img-thumbnail" src="{{ photo.get('baseUrl')+ "=w300-h200-c" }}" alt="">
                 </a>
 
             </div>
