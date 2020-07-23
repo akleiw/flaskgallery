@@ -9,7 +9,7 @@ from datetime import datetime
 from flask_migrate import Migrate
 from gphotospy import authorize
 from gphotospy.album import Album
-from gphotospy.media import *
+from gphotospy.media import Media
 
 import os
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -93,6 +93,8 @@ def index():
 @app.route("/")
 def gallery():
     if request.method == "GET":
+        album_manager = Album(service)
+        albums = {a.get('title'): a for a in album_manager.list()}
         return render_template("gallery.html", albums=albums.values())
 
 @app.route("/a/<album_name>")
