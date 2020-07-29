@@ -14,7 +14,7 @@ google-auth==1.19.0
 google-auth-httplib2==0.0.4
 google-auth-oauthlib==0.4.1
 googleapis-common-protos==1.52.0
-gphotospy==0.1.2
+gphotospy @ git+https://github.com/davidedelpapa/gphotospy.git@00f44d73bf0bc23caf5bf680d890e49a05450eaa
 httplib2==0.18.1
 idna==2.10
 itsdangerous==1.1.0
