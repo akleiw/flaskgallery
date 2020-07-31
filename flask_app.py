@@ -12,27 +12,9 @@ from gphotospy.album import Album
 from gphotospy.media import Media
 
 import os
+from app import app
+
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-
-
-app = Flask(__name__)
-
-app.config["DEBUG"] = True
-
-if __name__ == '__main__':
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////Users/akleiw/Projects/pythonanywhere/test.sqlite'
-else:
-    SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-        username="pilarski",
-        password="passformysql",
-        hostname="pilarski.mysql.pythonanywhere-services.com",
-        databasename="pilarski$comments",
-    )
-
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
-app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 CLIENT_SECRET = os.path.join(THIS_FOLDER, "gphotos.json")
 
 
