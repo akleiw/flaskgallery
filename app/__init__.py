@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, UserMixin, logout_user, login_required, current_user
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from gphotospy import authorize
 from gphotospy.album import Album
