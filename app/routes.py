@@ -8,8 +8,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.models import Comment, User, load_user
 
 
-@app.route("/comments", methods=["GET", "POST"])
-def index():
+@app.route("/comments/", methods=["GET", "POST"])
+def index2():
     if request.method == "GET":
         return render_template("main_page.html", comments=Comment.query.all())
     else:
@@ -17,9 +17,10 @@ def index():
             comment = Comment(content=request.form["contents"], commenter=current_user)
             db.session.add(comment)
             db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('index2'))
 
 @app.route("/")
+@app.route("/index")
 def gallery():
     if request.method == "GET":
         album_manager = Album(service)

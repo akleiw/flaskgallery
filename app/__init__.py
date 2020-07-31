@@ -13,7 +13,6 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-app.secret_key = "something only you know"
 login_manager = LoginManager()
 login_manager.init_app(app)
 

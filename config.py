@@ -11,3 +11,5 @@ class Config:
     SQLALCHEMY_POOL_RECYCLE = 299
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
+
+    SECRET_KEY = "something only you know"
