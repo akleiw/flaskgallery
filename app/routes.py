@@ -14,10 +14,12 @@ def index2():
         return render_template("main_page.html", comments=Comment.query.all())
     else:
         if current_user.is_authenticated:
-            comment = Comment(content=request.form["contents"], commenter=current_user)
+            comment = Comment(
+                content=request.form["contents"], commenter=current_user)
             db.session.add(comment)
             db.session.commit()
         return redirect(url_for('index2'))
+
 
 @app.route("/")
 @app.route("/index")
@@ -25,15 +27,15 @@ def gallery():
     if request.method == "GET":
         album_manager = Album(service)
         albums = {a.get('title'): a for a in album_manager.list()}
-        return render_template("gallery.html", albums=albums.values())
+        return render_template("gallery.html", title='MP Gallery', albums=albums.values())
+
 
 @app.route("/a/<album_name>")
 def album(album_name):
     media_manager = Media(service)
     album_id = albums[album_name].get('id')
     album_media_list = list(media_manager.search_album(album_id))
-    return render_template("album.html", title=album_name, photos = album_media_list)
-
+    return render_template("album.html", title=album_name, photos=album_media_list)
 
 
 @app.route("/login/", methods=["GET", "POST"])
