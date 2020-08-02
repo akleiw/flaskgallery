@@ -49,11 +49,11 @@ def login():
         return render_template("login_page.html", error=True)
 
     login_user(user)
-    return redirect(url_for('index'))
+    return redirect(url_for('index2'))
 
 
 @app.route("/logout/")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('index2'))
