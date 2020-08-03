@@ -19,8 +19,8 @@
     <div class="container">
         <div class="row">
         {% for album in albums %}
-        <div class="col-lg-3 col-md-4 col-6 mb-4">
-          <div class="card mb-4 h-100 shadow-sm">
+        <div class="col-lg-3 col-md-4 col-6 mb-3">
+          <div class="card mb-4 shadow-sm">
             <img class="img-fluid" src="{{ album.get('coverPhotoBaseUrl')+ "=w300-h200-c" }}" alt="">
             <div class="card-body d-flex flex-column">
               <a class="card-text stretched-link" href="/a/{{ album.get('title') }}">{{ album.get('title') }}</a>
