@@ -15,7 +15,7 @@
 
           {% for photo in photos %}
                 <div class="col-lg-3 col-md-4 col-6 mb-4">
-                <a href="{{ photo.get('baseUrl')+ "=w1500-h1000" }}" data-fancybox="gallery" class="d-block fancybox">
+                <a href="{{ photo.get('baseUrl')+ "=w1500-h1000" }}" data-fancybox="gallery" data-caption="{{ photo.get('description', '') }}" class="d-block fancybox">
                 <img class="img-fluid img-thumbnail" src="{{ photo.get('baseUrl')+ "=w300-h200-c" }}" alt="">
                 </a>
 
