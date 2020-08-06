@@ -1,4 +1,4 @@
-from app import app, db, service, albums
+from app import app, db, service, utils
 from gphotospy.album import Album
 from gphotospy.media import Media, MediaItem
 from flask import redirect, render_template, request, url_for
@@ -25,15 +25,13 @@ def index2():
 @app.route("/index")
 def gallery():
     if request.method == "GET":
-        album_manager = Album(service)
-        albums = {a.get('title'): a for a in album_manager.list()}
-        return render_template("gallery.html", title='MP Gallery', albums=albums.values())
+        return render_template("gallery.html", title='MP Gallery', albums=utils.get_albums())
 
 
 @app.route("/a/<album_name>")
 def album(album_name):
     media_manager = Media(service)
-    album_id = albums[album_name].get('id')
+    album_id = utils.get_albums()[album_name].get('id')
     album_media_list = (MediaItem(m)
                         for m in media_manager.search_album(album_id))
     return render_template("album.html", title=album_name, media=album_media_list)
