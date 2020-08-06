@@ -13,10 +13,14 @@
               <hr class="mt-2 mb-5">
   <div class="row text-center text-lg-left">
 
-          {% for photo in photos %}
+          {% for item in media %}
                 <div class="col-lg-3 col-md-4 col-6 mb-4">
-                <a href="{{ photo.get('baseUrl')+ "=w1500-h1000" }}" data-fancybox="gallery" data-caption="{{ photo.get('description', '') }}" class="d-block fancybox">
-                <img class="img-fluid img-thumbnail" src="{{ photo.get('baseUrl')+ "=w300-h200-c" }}" alt="">
+                {% if item.is_video() %}
+                <a href="{{ item.get_url() }}" data-fancybox="gallery" data-type="video" class="d-block fancybox">
+                {% else %}
+                <a href="{{ item.get_url(False, 1500, 1000) }}" data-fancybox="gallery" data-caption="{{ item.val.get('description', '') }}"  class="d-block fancybox">
+                {% endif %}
+                <img class="img-fluid img-thumbnail" src="{{ item.get_url(False, 300, 200, True) }}" alt="">
                 </a>
 
 
