@@ -31,10 +31,10 @@ def gallery():
 @app.route("/a/<album_name>")
 def album(album_name):
     media_manager = Media(service)
-    album_id = utils.get_albums()[album_name].get('id')
+    album = utils.get_albums()[album_name]
     album_media_list = (MediaItem(m)
-                        for m in media_manager.search_album(album_id))
-    return render_template("album.html", title=album_name, media=album_media_list)
+                        for m in media_manager.search_album(album.get('id')))
+    return render_template("album.html", title=album.get('title'), media=album_media_list)
 
 
 @app.route("/login/", methods=["GET", "POST"])
