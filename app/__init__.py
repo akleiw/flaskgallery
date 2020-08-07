@@ -25,4 +25,4 @@ service = authorize.init(CLIENT_SECRET)
 
 from app import routes
 from app import models
-from app import utils
+from app import gphotos
