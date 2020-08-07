@@ -28,7 +28,7 @@ def gallery():
 @app.route("/a/<album_name>")
 def album(album_name):
     album = gphotos.get_albums().get(album_name)
-    media_list = gphotos.get_media(album)
+    media_list = gphotos.get_media(album.get('id'))
     return render_template("album.html", title=album.get('title'), media=media_list)
 
 

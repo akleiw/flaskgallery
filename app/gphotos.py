@@ -17,8 +17,9 @@ def get_albums():
     album_manager = Album(service)
     return {normalize_for_url(a.get('title')): a for a in album_manager.list()}
 
-def get_media(album):
+@cache.memoize()
+def get_media(album_id):
     media_manager = Media(service)
-    album_media_list = (MediaItem(m)
-                        for m in media_manager.search_album(album.get('id')))
+    album_media_list = list(MediaItem(m)
+                        for m in media_manager.search_album(album_id))
     return album_media_list
