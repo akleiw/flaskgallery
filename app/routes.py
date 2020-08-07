@@ -1,9 +1,7 @@
 from app import app, db, service, gphotos
 from gphotospy.media import Media, MediaItem
 from flask import redirect, render_template, request, url_for
-
 from flask_login import login_user, logout_user, login_required, current_user
-
 from app.models import Comment, User, load_user
 
 
@@ -29,11 +27,9 @@ def gallery():
 
 @app.route("/a/<album_name>")
 def album(album_name):
-    media_manager = Media(service)
-    album = gphotos.get_albums()[album_name]
-    album_media_list = (MediaItem(m)
-                        for m in media_manager.search_album(album.get('id')))
-    return render_template("album.html", title=album.get('title'), media=album_media_list)
+    album = gphotos.get_albums().get(album_name)
+    media_list = gphotos.get_media(album)
+    return render_template("album.html", title=album.get('title'), media=media_list)
 
 
 @app.route("/login/", methods=["GET", "POST"])
