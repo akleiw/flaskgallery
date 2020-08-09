@@ -54,8 +54,17 @@
             //"download",
             "close"
             ],
+
+    afterShow: function( instance, current ) {
+      console.info( 'Clicked element:' );
+      	instance.$refs.infobar.text('');
+	instance.$refs.infobar.append('<span data-fancybox-index></span> / <span data-fancybox-count></span> ');
+      instance.$refs.infobar.append('test')
+    }
+
             });
 
     </script>
+
 
 {% endblock %}
