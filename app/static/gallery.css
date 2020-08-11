@@ -49,3 +49,13 @@ body {
 .back-arrow:hover {
     background-color: whitesmoke;
 }
+
+.fancybox-infobar{
+ line-height: 20px;
+ margin-top: 4px;
+ background: rgba(30,30,30,.3);
+ border: 0;
+ border-radius: 0;
+ mix-blend-mode: normal;
+}
+

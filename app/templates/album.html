@@ -18,9 +18,9 @@
           {% for item in media %}
                 <div class="col-lg-3 col-md-4 col-6 mb-4">
                 {% if item.is_video() %}
-                <a href="{{ item.get_url() }}" data-fancybox="gallery" data-type="video" class="d-block fancybox">
+                <a href="{{ item.get_url() }}" data-fancybox="gallery" data-type="video" data-creationtime="" class="d-block fancybox">
                 {% else %}
-                <a href="{{ item.get_url(False, 1500, 1000) }}" data-fancybox="gallery" data-caption="{{ item.val.get('description', '') }}"  class="d-block fancybox">
+                <a href="{{ item.get_url(False, 1500, 1000) }}" data-fancybox="gallery" data-caption="{{ item.val.get('description', '') }}" data-creationtime="{{ item.metadata().get('creationTime', '')[:10] }}"  class="d-block fancybox">
                 {% endif %}
                 <img class="img-fluid img-thumbnail" src="{{ item.get_url(False, 300, 200, True) }}" alt="">
                 </a>
@@ -54,8 +54,17 @@
             //"download",
             "close"
             ],
+
+            beforeShow: function( instance, current ) {
+              	instance.$refs.infobar.html('');
+        	    instance.$refs.infobar.append('<span data-fancybox-index></span> / <span data-fancybox-count></span> ');
+        	    var date = current.opts.$orig.attr("data-creationtime")
+                instance.$refs.infobar.append('<br/>' + date);
+            }
+
             });
 
     </script>
+
 
 {% endblock %}
