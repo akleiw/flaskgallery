@@ -1,4 +1,4 @@
-from app import app, db, service, gphotos
+from app import app, db, service, gphotos, cache
 from gphotospy.media import Media, MediaItem
 from flask import redirect, render_template, request, url_for
 from flask_login import login_user, logout_user, login_required, current_user
@@ -31,6 +31,14 @@ def album(album_name):
     album = gphotos.get_albums().get(album_name)
     media_list = gphotos.get_media(album.get('id'))
     return render_template("album.html", title=album.get('title'), media=media_list)
+
+
+@app.route("/reload_albums")
+def reload_albums():
+    if request.method == "GET":
+        cache.delete_memoized(gphotos.get_albums)
+        gphotos.get_albums()
+        return "OK"
 
 
 @app.route("/login/", methods=["GET", "POST"])
