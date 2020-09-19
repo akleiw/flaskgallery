@@ -22,6 +22,7 @@ def index2():
 @app.route("/index")
 def gallery():
     if request.method == "GET":
+        app.logger.debug('gphotos.get_albums() called')
         return render_template("gallery.html", title='MP Gallery', albums=gphotos.get_albums())
 
 

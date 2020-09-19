@@ -6,6 +6,8 @@ from flask_caching import Cache
 from gphotospy import authorize
 from config import Config
 import os
+import logging
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -21,6 +23,10 @@ THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 CLIENT_SECRET = os.path.join(THIS_FOLDER, "gphotos.json")
 
 service = authorize.init(CLIENT_SECRET)
+
+
+app.logger.addHandler(logging.StreamHandler())
+app.logger.setLevel(logging.DEBUG)
 
 
 from app import routes

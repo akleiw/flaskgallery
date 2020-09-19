@@ -1,5 +1,6 @@
 import unicodedata
 from app import service, cache
+from app import app
 from gphotospy.album import Album
 from gphotospy.media import Media, MediaItem
 
@@ -12,14 +13,17 @@ def normalize_for_url(text: str):
     text = text.translate(translation)
     return text
 
+
 @cache.memoize()
 def get_albums():
+    app.logger.debug('gphotos.get_albums() executed')
     album_manager = Album(service)
     return {normalize_for_url(a.get('title')): a for a in album_manager.list()}
+
 
 @cache.memoize()
 def get_media(album_id):
     media_manager = Media(service)
     album_media_list = list(MediaItem(m)
-                        for m in media_manager.search_album(album_id))
+                            for m in media_manager.search_album(album_id))
     return album_media_list
