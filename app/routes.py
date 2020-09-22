@@ -18,8 +18,11 @@ def index2():
         return redirect(url_for('index2'))
 
 
-@app.route("/")
 @app.route("/index")
+def index_redirect():
+    return redirect(url_for('gallery'))
+
+@app.route("/")
 def gallery():
     if request.method == "GET":
         app.logger.debug('gphotos.get_albums() called')
