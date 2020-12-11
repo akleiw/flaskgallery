@@ -22,6 +22,7 @@ def index2():
 def index_redirect():
     return redirect(url_for('gallery'))
 
+
 @app.route("/")
 def gallery():
     if request.method == "GET":
@@ -38,8 +39,10 @@ def album(album_name):
 
 @app.route("/reload_albums")
 def reload_albums():
+    """Delete and refresh cached albums from gphotos"""
     if request.method == "GET":
         cache.delete_memoized(gphotos.get_albums)
+        cache.delete_memoized(gphotos.get_media)
         gphotos.get_albums()
         return "OK"
 
