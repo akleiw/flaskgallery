@@ -6,10 +6,10 @@ from gphotospy.media import Media, MediaItem
 
 
 def normalize_for_url(text: str):
-    # spaces to underscores, remove parenthesis
-    translation = str.maketrans(' ', '_', '()')
+    # spaces and slashes to underscores, remove parenthesis
+    translation = str.maketrans(' /', '__', '()')
     text = unicodedata.normalize('NFD', text).encode(
-        'ascii', 'ignore').decode('utf-8')
+        'ascii', 'ignore').decode('utf-8')  # replace special characters with their unicode counterparts
     text = text.translate(translation)
     return text
 
