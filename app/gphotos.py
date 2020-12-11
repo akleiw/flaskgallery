@@ -1,4 +1,5 @@
 import unicodedata
+import string
 from app import service, cache
 from app import app
 from gphotospy.album import Album
@@ -6,8 +7,8 @@ from gphotospy.media import Media, MediaItem
 
 
 def normalize_for_url(text: str):
-    # spaces and slashes to underscores, remove parenthesis
-    translation = str.maketrans(' /', '__', '()')
+    # spaces and slashes to underscores, all other punctuation
+    translation = str.maketrans(' /', '__', string.punctuation)
     text = unicodedata.normalize('NFD', text).encode(
         'ascii', 'ignore').decode('utf-8')  # replace special characters with their unicode counterparts
     text = text.translate(translation)
