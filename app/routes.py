@@ -1,6 +1,6 @@
 from app import app, db, service, gphotos, cache
 from gphotospy.media import Media, MediaItem
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models import Comment, User, load_user
 
@@ -33,6 +33,8 @@ def gallery():
 @app.route("/a/<album_name>")
 def album(album_name):
     album = gphotos.get_albums().get(album_name)
+    if not album:
+        abort(404)
     media_list = gphotos.get_media(album.get('id'))
     return render_template("album.html", title=album.get('title'), media=media_list)
 
