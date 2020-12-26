@@ -32,3 +32,4 @@ app.logger.setLevel(logging.DEBUG)
 from app import routes
 from app import models
 from app import gphotos
+from app import errors
