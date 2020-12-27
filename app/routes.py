@@ -36,7 +36,7 @@ def album(album_name):
     if not album:
         abort(404)
     media_list = gphotos.get_media(album.get('id'))
-    return render_template("album.html", title=album.get('title'), media=media_list)
+    return render_template("album.html", title=album.get('title'), album=album, media=media_list)
 
 
 @app.route("/reload_albums")
