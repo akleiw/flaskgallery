@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <meta property="og:title" content="{{ title }} - Zdjęcia Marek Pilarski" data-dynamic="true">
+    <meta property="og:title" content="{{ title }} - {{ config['GALLERY_TITLE'] }}" data-dynamic="true">
     <meta property="og:description" content="Do albumu dodano {{ media|length }} zdjęcia." data-dynamic="true">
     <meta property="og:type" content="article">
     <meta property="og:image" content="{{ album.get('coverPhotoBaseUrl')+ "=w600-h315-p-k" }}">

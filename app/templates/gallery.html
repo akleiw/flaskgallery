@@ -13,11 +13,11 @@
 
   <section class="jumbotron text-center">
     <div class="container">
-      <h1>Marek Pilarski Photography</h1>
-      <p class="lead text-muted">Zdjęcia z moich podróży, małych i dużych</p>
+      <h1>{{ config['GALLERY_TITLE'] }}</h1>
+      <p class="lead text-muted">{{ config['GALLERY_SUBTITLE'] }}</p>
       <p>
-        <a href="mailto:mkpilarski@gmail.com" class="btn btn-secondary my-2">E-Mail</a>
-        <a href="https://www.facebook.com/marek.pilarski.73" class="btn btn-primary my-2">Facebook</a>
+        <a href="{{ config['GALLERY_BUTTON_SECONDARY_URL'] }}" class="btn btn-secondary my-2">{{ config['GALLERY_BUTTON_SECONDARY'] }}</a>
+        <a href="{{ config['GALLERY_BUTTON_PRIMARY_URL'] }}" class="btn btn-primary my-2">{{ config['GALLERY_BUTTON_PRIMARY'] }}</a>
       </p>
     </div>
   </section>

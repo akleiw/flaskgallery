@@ -1,4 +1,4 @@
-from app import app, db, service, gphotos, cache
+from app import app, db, service, gphotos, cache, Config
 from gphotospy.media import Media, MediaItem
 from flask import redirect, render_template, request, url_for, abort
 from flask_login import login_user, logout_user, login_required, current_user
@@ -27,7 +27,7 @@ def index_redirect():
 def gallery():
     if request.method == "GET":
         app.logger.debug('gphotos.get_albums() called')
-        return render_template("gallery.html", title='MP Gallery', albums=gphotos.get_albums())
+        return render_template("gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums())
 
 
 @app.route("/a/<album_name>")
