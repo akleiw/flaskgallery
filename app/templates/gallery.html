@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+
+{% block head %}
+    <meta property="og:title" content="{{ title }}" data-dynamic="true">
+    <meta property="og:description" content="Zdjęcia z moich podróży, małych i dużych." data-dynamic="true">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="{{ (albums.values()|first).get('coverPhotoBaseUrl')+ "=w600-h315-p-k" }}">
+{% endblock %}
+
+
 {% block content %}
 
   <section class="jumbotron text-center">
