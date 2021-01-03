@@ -1,4 +1,3 @@
--f /usr/share/pip-wheels
 alembic==1.4.2
 cachetools==4.1.1
 certifi==2020.6.20
@@ -9,13 +8,14 @@ Flask-Caching==1.9.0
 Flask-Login==0.5.0
 Flask-Migrate==2.5.3
 Flask-SQLAlchemy==2.4.3
+Flask-WTF==0.14.3
 google-api-core==1.21.0
 google-api-python-client==1.9.3
 google-auth==1.19.0
 google-auth-httplib2==0.0.4
 google-auth-oauthlib==0.4.1
 googleapis-common-protos==1.52.0
-git+git://github.com/davidedelpapa/gphotospy.git@00f44d73bf0bc23caf5bf680d890e49a05450eaa
+gphotospy==0.1.3
 httplib2==0.18.1
 idna==2.10
 itsdangerous==1.1.0
@@ -40,3 +40,4 @@ SQLAlchemy==1.3.18
 uritemplate==3.0.1
 urllib3==1.25.9
 Werkzeug==1.0.1
+WTForms==2.3.3
