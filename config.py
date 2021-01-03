@@ -13,7 +13,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
 
-    SECRET_KEY = "something only you know"
+    SECRET_KEY = os.environ.get('SECRET_KEY') or "something only you know"
 
     CACHE_TYPE = "simple"  # Flask-Caching related configs
     CACHE_DEFAULT_TIMEOUT = 59 * 60  # 59 minutes
