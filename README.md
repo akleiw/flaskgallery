@@ -1,2 +1,2 @@
 # Flaskgallery
-Learining to code with Flask
+Public facing gallery for albums stored on Google Photos
