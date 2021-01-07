@@ -1,2 +1,2 @@
-# pythonanywhere
-Learining to code on pythonanywhere
+# Flaskgallery
+Learining to code with Flask
