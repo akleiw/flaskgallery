@@ -5,16 +5,17 @@ from datetime import datetime
 
 from app import db, login_manager
 
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter_by(username = user_id).first()
+    return User.query.filter_by(username=user_id).first()
 
 
 class User(UserMixin, db.Model):
-
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(128))
+    username = db.Column(db.String(128), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
     def check_password(self, password):
@@ -22,6 +23,9 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         return self.username
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
 
 
 class Comment(db.Model):
