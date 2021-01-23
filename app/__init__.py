@@ -16,8 +16,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 cache = Cache(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app)
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 CLIENT_SECRET = os.path.join(THIS_FOLDER, "gphotos.json")
