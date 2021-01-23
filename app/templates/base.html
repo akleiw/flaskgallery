@@ -27,8 +27,16 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('gallery') }}">Albums <span class="sr-only">(current)</span></a>
-            </li>
+                <a class="nav-link" href="{{ url_for('gallery') }}">Albums</a>
+              </li>
+              <li class="nav-item active">
+                {% if current_user.is_anonymous %}
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                {% else %}
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                {% endif %}
+
+              </li>
             </ul>
         <form class="form-inline mt-2 mt-md-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -37,7 +45,15 @@
       </div>
     </nav>
 
-
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
 
 
       {% block content %}{% endblock %}

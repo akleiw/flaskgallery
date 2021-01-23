@@ -130,3 +130,4 @@ dmypy.json
 
 gphotos.json
 *.token
+app.db
