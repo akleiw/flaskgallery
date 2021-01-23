@@ -1,22 +1,8 @@
 from app import app, db, service, gphotos, cache, Config
 from app.forms import LoginForm
-from gphotospy.media import Media, MediaItem
 from flask import redirect, render_template, request, url_for, abort, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from app.models import Comment, User, load_user
-
-
-@app.route("/comments/", methods=["GET", "POST"])
-def index2():
-    if request.method == "GET":
-        return render_template("main_page.html", comments=Comment.query.all())
-    else:
-        if current_user.is_authenticated:
-            comment = Comment(
-                content=request.form["contents"], commenter=current_user)
-            db.session.add(comment)
-            db.session.commit()
-        return redirect(url_for('index2'))
+from app.models import User
 
 
 @app.route("/index")
@@ -69,4 +55,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index2'))
+    return redirect('/')
