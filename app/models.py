@@ -32,7 +32,9 @@ class User(UserMixin, db.Model):
         self.password_hash = generate_password_hash(password)
 
     groups = db.relationship(
-        'Group', secondary=users_groups, lazy='dynamic')
+        'Group', secondary=users_groups,
+        backref=db.backref('users', lazy='dynamic'),
+        lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
