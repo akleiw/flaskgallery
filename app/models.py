@@ -17,6 +17,12 @@ users_groups = db.Table(
     db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
 )
 
+albums_groups = db.Table(
+    'albums_groups',
+    db.Column('album_id', db.Integer, db.ForeignKey('albums.id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
+)
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -51,6 +57,11 @@ class Group(db.Model):
     __tablename__ = "groups"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
+
+    albums = db.relationship(
+        'Album', secondary=albums_groups,
+        backref=db.backref('groups', lazy='dynamic'),
+        lazy='dynamic')
 
     def __repr__(self):
         return '<Group {}>'.format(self.name)
