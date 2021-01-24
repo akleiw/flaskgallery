@@ -42,6 +42,12 @@ class User(UserMixin, db.Model):
         backref=db.backref('users', lazy='dynamic'),
         lazy='dynamic')
 
+    def albums(self):
+        return Album.query.join(albums_groups, (albums_groups.c.album_id == Album.id)).join(
+            users_groups, (users_groups.c.group_id == albums_groups.c.group_id)).filter(
+                users_groups.c.user_id == self.id)
+
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
