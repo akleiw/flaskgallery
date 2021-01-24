@@ -32,7 +32,7 @@ class User(UserMixin, db.Model):
         self.password_hash = generate_password_hash(password)
 
     groups = db.relationship(
-        'Group', secondary=users_groups)
+        'Group', secondary=users_groups, lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -49,3 +49,6 @@ class Group(db.Model):
     __tablename__ = "groups"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
+
+    def __repr__(self):
+        return '<Group {}>'.format(self.name)
