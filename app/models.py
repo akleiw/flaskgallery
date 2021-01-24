@@ -13,8 +13,8 @@ def load_user(id):
 
 users_groups = db.Table(
     'users_groups',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('group.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
 )
 
 
@@ -32,10 +32,7 @@ class User(UserMixin, db.Model):
         self.password_hash = generate_password_hash(password)
 
     groups = db.relationship(
-        'Group', secondary=users_groups,
-        primaryjoin=(followers.c.follower_id == id),
-        secondaryjoin=(followers.c.followed_id == id),
-        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+        'Group', secondary=users_groups)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
