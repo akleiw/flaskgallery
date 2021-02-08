@@ -11,16 +11,16 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-users_groups = db.Table(
-    'users_groups',
+users_roles = db.Table(
+    'users_roles',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
 )
 
-albums_groups = db.Table(
-    'albums_groups',
+albums_roles = db.Table(
+    'albums_roles',
     db.Column('album_id', db.Integer, db.ForeignKey('albums.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
 )
 
 
@@ -37,15 +37,15 @@ class User(UserMixin, db.Model):
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    groups = db.relationship(
-        'Group', secondary=users_groups,
+    roles = db.relationship(
+        'Role', secondary=users_roles,
         backref=db.backref('users', lazy='dynamic'),
         lazy='dynamic')
 
     def albums(self):
-        return Album.query.join(albums_groups, (albums_groups.c.album_id == Album.id)).join(
-            users_groups, (users_groups.c.group_id == albums_groups.c.group_id)).filter(
-                users_groups.c.user_id == self.id)
+        return Album.query.join(albums_roles, (albums_roles.c.album_id == Album.id)).join(
+            users_roles, (users_roles.c.role_id == albums_roles.c.role_id)).filter(
+                users_roles.c.user_id == self.id)
 
 
     def __repr__(self):
@@ -58,16 +58,16 @@ class Album(db.Model):
     gphotos_id = db.Column(db.String(100), index=True)
 
 
-class Group(db.Model):
-    """docstring for UserGroup"""
-    __tablename__ = "groups"
+class Role(db.Model):
+    """docstring for Userrole"""
+    __tablename__ = "roles"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
 
     albums = db.relationship(
-        'Album', secondary=albums_groups,
-        backref=db.backref('groups', lazy='dynamic'),
+        'Album', secondary=albums_roles,
+        backref=db.backref('roles', lazy='dynamic'),
         lazy='dynamic')
 
     def __repr__(self):
-        return '<Group {}>'.format(self.name)
+        return '<Role {}>'.format(self.name)
