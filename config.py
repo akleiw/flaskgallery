@@ -19,6 +19,8 @@ class Config:
     CACHE_TYPE = "simple"  # Flask-Caching related configs
     CACHE_DEFAULT_TIMEOUT = 59 * 60  # 59 minutes
 
+    THUMBNAIL_FOLDER = 'album_thumbnails'
+
     GALLERY_TITLE = os.environ.get('GALLERY_TITLE')
     GALLERY_SUBTITLE = os.environ.get('GALLERY_SUBTITLE')
     GALLERY_SHORT = os.environ.get('GALLERY_SHORT')

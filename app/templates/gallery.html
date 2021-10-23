@@ -5,7 +5,7 @@
     <meta property="og:title" content="{{ title }}" data-dynamic="true">
     <meta property="og:description" content="Zdjęcia z moich podróży, małych i dużych." data-dynamic="true">
     <meta property="og:type" content="article">
-    <meta property="og:image" content="{{ (albums.values()|first).get('coverPhotoBaseUrl')+ "=w600-h315-p-k" }}">
+    <meta property="og:image" content="{{ (albums.values()|first).thumbnail_url() }}">
 {% endblock %}
 
 
@@ -30,11 +30,11 @@
         {% for url_name, album in albums.items() %}
         <div class="col-lg-3 col-md-4 col-6 mb-3 d-flex align-items-stretch">
           <div class="card mb-4 shadow-sm">
-            <img class="img-fluid lozad" data-src="{{ album.get('coverPhotoBaseUrl')+ "=w300-h200-c" }}" alt="">
+            <img class="img-fluid lozad" data-src="{{ album.thumbnail_url() }}" alt="">
             <div class="card-body d-flex flex-column">
-              <a class="card-text stretched-link" href="/a/{{ url_name }}">{{ album.get('title') }}</a>
+              <a class="card-text stretched-link" href="/a/{{ url_name }}">{{ album.title }}</a>
 
-              <small class="mt-auto text-muted align-self-end">{{ album.get('mediaItemsCount') }} photos</small>
+              <small class="mt-auto text-muted align-self-end">{{ album.items_count }} photos</small>
             </div>
           </div>
 

@@ -1,9 +1,9 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
 
-
-from app import db, login_manager
+from app import db, login_manager, app
 
 
 @login_manager.user_loader
@@ -56,6 +56,13 @@ class Album(db.Model):
     __tablename__ = "albums"
     id = db.Column(db.Integer, primary_key=True)
     gphotos_id = db.Column(db.String(100), index=True)
+    title = db.Column(db.String, index=True)
+    url_title = db.Column(db.String, index=True)
+    items_count = db.Column(db.Integer)
+    
+    def thumbnail_url(self):
+        return os.path.join(app.static_url_path, app.config.get('THUMBNAIL_FOLDER'), self.gphotos_id + '.jpg')
+
 
 
 class Role(db.Model):

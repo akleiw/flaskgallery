@@ -24,6 +24,8 @@ CLIENT_SECRET = os.path.join(THIS_FOLDER, "gphotos.json")
 
 service = authorize.init(CLIENT_SECRET)
 
+app.config['ALBUM_THUMB_PATH'] = os.path.join(app.static_folder, app.config.get('THUMBNAIL_FOLDER'))
+os.makedirs(app.config['ALBUM_THUMB_PATH'], exist_ok=True)
 
 app.logger.addHandler(logging.StreamHandler())
 app.logger.setLevel(logging.DEBUG)

@@ -23,19 +23,17 @@ def album(album_name):
     album = gphotos.get_albums().get(album_name)
     if not album:
         abort(404)
-    media_list = gphotos.get_media(album.get('id'))
-    return render_template("album.html", title=album.get('title'), album=album, media=media_list)
+    media_list = gphotos.get_media(album.gphotos_id)
+    return render_template("album.html", title=album.title, album=album, media=media_list)
 
 
 @app.route("/reload_albums")
 def reload_albums():
     """Delete and refresh cached albums from gphotos"""
     if request.method == "GET":
-        cache.delete_memoized(gphotos.get_albums)
+        gphotos.cache_albums()
         cache.delete_memoized(gphotos.get_media)
-        gphotos.get_albums()
         return "OK"
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

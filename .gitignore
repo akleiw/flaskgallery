@@ -131,3 +131,5 @@ dmypy.json
 gphotos.json
 *.token
 app.db
+
+album_thumbnails/
