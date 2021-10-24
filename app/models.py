@@ -43,6 +43,8 @@ class User(UserMixin, db.Model):
         lazy='dynamic')
 
     def albums(self):
+        if Role.get_admin_role() in self.roles:
+            return Album.query
         return Album.query.join(albums_roles, (albums_roles.c.album_id == Album.id)).join(
             users_roles, (users_roles.c.role_id == albums_roles.c.role_id)).filter(
                 users_roles.c.user_id == self.id)
@@ -63,6 +65,9 @@ class Album(db.Model):
     def thumbnail_url(self):
         return os.path.join(app.static_url_path, app.config.get('THUMBNAIL_FOLDER'), self.gphotos_id + '.jpg')
 
+    def __repr__(self):
+        return '<Album {}>'.format(self.title)
+
 
 
 class Role(db.Model):
@@ -82,4 +87,8 @@ class Role(db.Model):
     @classmethod
     def get_public_role(cls):
         return cls.query.filter_by(name = 'public').first()
+
+    @classmethod
+    def get_admin_role(cls):
+        return cls.query.filter_by(name = 'admin').first()
 
