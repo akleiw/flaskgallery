@@ -78,3 +78,8 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role {}>'.format(self.name)
+
+    @classmethod
+    def get_public_role(cls):
+        return cls.query.filter_by(name = 'public').first()
+

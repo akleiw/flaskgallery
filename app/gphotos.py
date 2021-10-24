@@ -3,9 +3,10 @@ import string
 import urllib.request
 import os
 from sqlalchemy import delete
+from flask_login import current_user
 from app import service, cache
 from app import app, db
-from app.models import Album
+from app.models import Album, Role
 from gphotospy.album import Album as GPhotosAlbum
 from gphotospy.media import Media, MediaItem
 
@@ -21,7 +22,11 @@ def normalize_for_url(text: str):
 
 
 def get_albums():
-    return {a.url_title: a for a in Album.query.all()}
+    if current_user.is_anonymous:
+        query = Role.get_public_role().albums
+    else:
+        query = current_user.albums()
+    return {a.url_title: a for a in query}
 
 def cache_albums(refresh_thumbnails=False):
     album_manager = GPhotosAlbum(service)
