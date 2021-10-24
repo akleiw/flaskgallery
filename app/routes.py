@@ -2,7 +2,7 @@ from app import app, db, service, gphotos, cache, Config
 from app.forms import LoginForm, RegistrationForm
 from flask import redirect, render_template, request, url_for, abort, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from app.models import User
+from app.models import Album, User
 from werkzeug.urls import url_parse
 
 
@@ -20,7 +20,7 @@ def gallery():
 
 @app.route("/a/<album_name>")
 def album(album_name):
-    album = gphotos.get_albums().get(album_name)
+    album = Album.query.filter_by(url_title = album_name).first()
     if not album:
         abort(404)
     media_list = gphotos.get_media(album.gphotos_id)
