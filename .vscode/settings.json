@@ -1,0 +1,29 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.mypyEnabled": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "119"
+    ],
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_flask_sqlalchemy"],
+
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestPath": "pytest",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+    },
+    "python.sortImports.args": [
+        "--profile", "black"
+    ],
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+        "editor.formatOnSave": true
+    }
+}
