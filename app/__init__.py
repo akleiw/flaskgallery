@@ -7,6 +7,7 @@ from flask.logging import create_logger
 from flask_caching import Cache
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from gphotospy import authorize
 
@@ -14,6 +15,8 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 log = create_logger(app)
+
+moment = Moment(app)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
