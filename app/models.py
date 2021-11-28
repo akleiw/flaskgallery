@@ -55,12 +55,16 @@ class User(UserMixin, db.Model):  # type: ignore
 
 
 class Album(db.Model):  # type: ignore
+    """Table for storing album metadata"""
+
     __tablename__ = "albums"
     id = db.Column(db.Integer, primary_key=True)
     gphotos_id = db.Column(db.String(100), index=True)
     title = db.Column(db.String, index=True)
     url_title = db.Column(db.String, index=True)
     items_count = db.Column(db.Integer)
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime, index=True)
 
     def thumbnail_url(self):
         return os.path.join(app.static_url_path, app.config.get("THUMBNAIL_FOLDER"), self.gphotos_id + ".jpg")
