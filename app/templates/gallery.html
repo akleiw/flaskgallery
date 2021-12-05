@@ -31,15 +31,11 @@
         <div class="row">
         {% for url_name, album in albums.items() %}
         <div class="col-lg-3 col-md-4 col-6 mb-3 d-flex align-items-stretch">
-          <div class="card mb-4 shadow-sm">
-            <img class="img-fluid lozad" data-src="{{ album.thumbnail_url() }}" alt="">
-            <div class="card-body d-flex flex-column">
-              <a class="card-text stretched-link" href="/a/{{ url_name }}">{{ album.title }}</a>
-
-              <small class="mt-auto text-muted align-self-end">{{ album.items_count }} photos</small>
-            </div>
-          </div>
-
+          {% if not roles %}
+            {% include '_card.html' %}
+          {% else %}  
+            {% include '_card_roles.html' %}
+          {% endif %}
         </div>
 
 

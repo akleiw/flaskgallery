@@ -4,7 +4,7 @@ from werkzeug.urls import url_parse
 
 from app import Config, app, cache, db, gphotos, log, service
 from app.forms import LoginForm, RegistrationForm
-from app.models import Album, User
+from app.models import Album, Role, User
 
 
 @app.route("/index")
@@ -42,7 +42,9 @@ def reload_albums():
 def manage_albums():
     if not current_user.is_admin():
         abort(403)
-    return render_template("gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums())
+    return render_template(
+        "gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums(), roles=Role.query.all()
+    )
 
 
 @app.route("/login", methods=["GET", "POST"])
