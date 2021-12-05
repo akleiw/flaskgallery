@@ -30,21 +30,35 @@
     <div class="container">
         <div class="row">
         {% for url_name, album in albums.items() %}
-        <div class="col-lg-3 col-md-4 col-6 mb-3 d-flex align-items-stretch">
-          {% if not roles %}
-            {% include '_card.html' %}
-          {% else %}  
-            {% include '_card_roles.html' %}
-          {% endif %}
-        </div>
-
-
-
+          <div class="col-lg-3 col-md-4 col-6 mb-3 d-flex align-items-stretch">
+            {% if not roles %}
+              {% include '_card.html' %}
+            {% else %}  
+              {% include '_card_roles.html' %}
+            {% endif %}
+          </div>
         {% endfor %}
               </div>
       </div>
 
   </div>
+
+  {% if roles %}
+    <script type="text/javascript">
+      $('.role-check').bind('click', function() {
+        $.post('/set_role', {
+                set: $(this).is(":checked"),
+                identifier: $(this).attr('id')
+            })
+
+          if($(this).is(":checked")) {
+            alert("I am checked!")
+          } else {
+            alert("I am unchecked!")
+          }
+      });
+    </script>
+  {% endif %}
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>

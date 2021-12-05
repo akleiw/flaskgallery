@@ -1,4 +1,4 @@
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import abort, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
@@ -45,6 +45,14 @@ def manage_albums():
     return render_template(
         "gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums(), roles=Role.query.all()
     )
+
+
+@app.route("/set_role", methods=["POST"])
+@login_required
+def set_role():
+    if not current_user.is_admin():
+        abort(403)
+    return jsonify({"text": f"{request.form['identifier']}-{request.form['set']}"})
 
 
 @app.route("/login", methods=["GET", "POST"])
