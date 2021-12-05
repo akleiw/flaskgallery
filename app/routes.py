@@ -37,6 +37,14 @@ def reload_albums():
         return "OK"
 
 
+@app.route("/manage_albums")
+@login_required
+def manage_albums():
+    if not current_user.is_admin():
+        abort(403)
+    return render_template("gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums())
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:

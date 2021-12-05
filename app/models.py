@@ -41,8 +41,11 @@ class User(UserMixin, db.Model):  # type: ignore
 
     roles = db.relationship("Role", secondary=users_roles, backref=db.backref("users", lazy="dynamic"), lazy="dynamic")
 
+    def is_admin(self) -> bool:
+        return Role.get_admin_role() in self.roles  # pylint: disable=unsupported-membership-test
+
     def albums(self):
-        if Role.get_admin_role() in self.roles:  # pylint: disable=unsupported-membership-test
+        if self.is_admin():
             return Album.query
         return (
             Album.query.join(albums_roles, (albums_roles.c.album_id == Album.id))
