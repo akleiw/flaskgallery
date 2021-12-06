@@ -56,7 +56,7 @@ def set_role():
     album = Album.query.filter_by(id=int(request.form.get("album_id"))).first()
     if not role or not album:
         return ""
-    if request.form["set"]:
+    if request.form["set"] == 'true':
         album.roles.append(role)
     else:
         album.roles.remove(role)
