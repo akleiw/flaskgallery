@@ -48,14 +48,9 @@
       $('.role-check').bind('click', function() {
         $.post('/set_role', {
                 set: $(this).is(":checked"),
-                identifier: $(this).attr('id')
+                role_id: $(this).data('roleid'),
+                album_id: $(this).data('albumid')
             })
-
-          if($(this).is(":checked")) {
-            alert("I am checked!")
-          } else {
-            alert("I am unchecked!")
-          }
       });
     </script>
   {% endif %}

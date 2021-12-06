@@ -52,7 +52,16 @@ def manage_albums():
 def set_role():
     if not current_user.is_admin():
         abort(403)
-    return jsonify({"text": f"{request.form['identifier']}-{request.form['set']}"})
+    role = Role.query.filter_by(id=int(request.form.get("role_id"))).first()
+    album = Album.query.filter_by(id=int(request.form.get("album_id"))).first()
+    if not role or not album:
+        return ""
+    if request.form["set"]:
+        album.roles.append(role)
+    else:
+        album.roles.remove(role)
+    db.session.commit()
+    return ""
 
 
 @app.route("/login", methods=["GET", "POST"])
