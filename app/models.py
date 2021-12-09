@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 from flask_login import UserMixin
+from sqlalchemy import UniqueConstraint
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import app, db, login_manager
@@ -17,12 +18,14 @@ users_roles = db.Table(
     "users_roles",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
     db.Column("role_id", db.Integer, db.ForeignKey("roles.id")),
+    UniqueConstraint("user_id", "role_id"),
 )
 
 albums_roles = db.Table(
     "albums_roles",
     db.Column("album_id", db.Integer, db.ForeignKey("albums.id")),
     db.Column("role_id", db.Integer, db.ForeignKey("roles.id")),
+    UniqueConstraint("album_id", "role_id"),
 )
 
 
