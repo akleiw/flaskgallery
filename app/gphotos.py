@@ -44,7 +44,7 @@ def _get_album_date_range(album_id: int) -> Tuple[datetime, datetime]:
     return (datetime.strptime(start_date, fmt), datetime.strptime(end_date, fmt))
 
 
-def cache_albums(refresh_thumbnails=False, refresh_dates=True):
+def cache_albums(refresh_thumbnails=False, refresh_dates=False):
     album_manager = GPhotosAlbum(service)
     current_ids = list()
     for a in album_manager.list():
@@ -52,7 +52,7 @@ def cache_albums(refresh_thumbnails=False, refresh_dates=True):
         if not album:
             album = Album()
         album.gphotos_id = a.get("id")
-        if refresh_dates:
+        if not album.end_date or refresh_dates:
             start_date, end_date = _get_album_date_range(album.gphotos_id)
             album.start_date = start_date
             album.end_date = end_date
