@@ -66,8 +66,8 @@ class Album(db.Model):  # type: ignore
     __tablename__ = "albums"
     id = db.Column(db.Integer, primary_key=True)
     gphotos_id = db.Column(db.String(100), index=True)
-    title = db.Column(db.String, index=True)
-    url_title = db.Column(db.String, index=True)
+    title = db.Column(db.String(255), index=True)
+    url_title = db.Column(db.String(255), index=True)
     items_count = db.Column(db.Integer)
     start_date = db.Column(db.DateTime)
     end_date = db.Column(db.DateTime, index=True)
