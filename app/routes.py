@@ -42,9 +42,8 @@ def reload_albums():
 def manage_albums():
     if not current_user.is_admin():
         abort(403)
-    return render_template(
-        "gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums(), roles=Role.query.all()
-    )
+    roles = Role.query.filter(Role.id != Role.get_admin_role().id).all()
+    return render_template("gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums(), roles=roles)
 
 
 @app.route("/set_role", methods=["POST"])
@@ -56,7 +55,7 @@ def set_role():
     album = Album.query.filter_by(id=int(request.form.get("album_id"))).first()
     if not role or not album:
         return ""
-    if request.form["set"] == 'true':
+    if request.form["set"] == "true":
         album.roles.append(role)
     else:
         album.roles.remove(role)
