@@ -1,10 +1,10 @@
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import abort, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
 from app import Config, app, cache, db, gphotos, log, service
 from app.forms import LoginForm, RegistrationForm
-from app.models import Album, User
+from app.models import Album, Role, User
 
 
 @app.route("/index")
@@ -35,6 +35,32 @@ def reload_albums():
         gphotos.cache_albums()
         cache.delete_memoized(gphotos.get_media)
         return "OK"
+
+
+@app.route("/manage_albums")
+@login_required
+def manage_albums():
+    if not current_user.is_admin():
+        abort(403)
+    roles = Role.query.filter(Role.id != Role.get_admin_role().id).all()
+    return render_template("gallery.html", title=Config.GALLERY_TITLE, albums=gphotos.get_albums(), roles=roles)
+
+
+@app.route("/set_role", methods=["POST"])
+@login_required
+def set_role():
+    if not current_user.is_admin():
+        abort(403)
+    role = Role.query.filter_by(id=int(request.form.get("role_id"))).first()
+    album = Album.query.filter_by(id=int(request.form.get("album_id"))).first()
+    if not role or not album:
+        return ""
+    if request.form["set"] == "true":
+        album.roles.append(role)
+    else:
+        album.roles.remove(role)
+    db.session.commit()
+    return ""
 
 
 @app.route("/login", methods=["GET", "POST"])

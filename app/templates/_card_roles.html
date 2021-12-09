@@ -1,0 +1,20 @@
+<div class="card mb-4 shadow-sm">
+    <img class="img-fluid lozad" data-src="{{ album.thumbnail_url() }}" alt="">
+    <div class="card-body d-flex flex-column">
+      <a class="card-text" href="/a/{{ url_name }}">{{ album.title }}</a>
+
+      <small class="mt-auto text-muted align-self-end">{{ album.items_count }} photos</small>
+      {% for role in roles %}
+        <div class="form-check">
+          <input class="form-check-input role-check" type="checkbox" value="" id="{{ album.id }}-{{role.name}}" data-albumid="{{ album.id }}" data-roleid="{{ role.id }}" autocomplete="off" {{ "checked" if role in album.roles }}>
+          <label class="form-check-label" for="{{ album.id }}-{{role.name}}">
+            {{ role.name }}
+          </label>
+        </div>
+      {% endfor %}
+    
+      
+    </div>
+  </div>
+
+  
