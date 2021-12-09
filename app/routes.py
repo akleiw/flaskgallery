@@ -28,13 +28,13 @@ def album(album_name):
     return render_template("album.html", title=album.title, album=album, media=media_list)
 
 
-@app.route("/reload_albums")
+@app.route("/reload_albums", methods=["GET"])
 def reload_albums():
     """Delete and refresh cached albums from gphotos"""
-    if request.method == "GET":
-        gphotos.cache_albums()
-        cache.delete_memoized(gphotos.get_media)
-        return "OK"
+    refresh_dates = request.args.get("dates") == "1"
+    gphotos.cache_albums(refresh_dates=refresh_dates)
+    cache.delete_memoized(gphotos.get_media)
+    return redirect("/")
 
 
 @app.route("/manage_albums")
