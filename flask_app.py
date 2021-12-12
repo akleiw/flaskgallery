@@ -9,22 +9,31 @@ def make_shell_context():
     return {"db": db, "User": User, "Role": Role, "Album": Album}
 
 
-@app.cli.command("create-admin")
+@app.cli.command("create-user")
+@click.argument("username")
 @click.argument("password")
-def create_admin(password):
-    admin_role = Role.query.filter_by(name="admin").first()
-    admin = admin_role.users.first() or User(username="admin")
-    admin.set_password(password)
-    admin_role.users.append(admin)
-    db.session.add(admin)
+@click.argument("role")
+def create_user(username, password, role):
+    role = Role.query.filter_by(name=role).first()
+    user = User(username=username)
+    user.set_password(password)
+    role.users.append(user)
+    db.session.add(user)
     db.session.commit()
 
 
-@app.cli.command("assign-role")
-@click.argument("role_name")
-def assign_role(role_name):
+@app.cli.command("create-role")
+@click.argument("role")
+def create_role(role: str):
+    db.session.add(Role(name=role))
+    db.session.commit()
+
+
+@app.cli.command("assign-all")
+@click.argument("role")
+def assign_role(role):
     """Assigns given role to all albums in gallery"""
-    role = Role.query.filter_by(name=role_name).first()
+    role = Role.query.filter_by(name=role).first()
     role.albums = Album.query.all()
     db.session.commit()
 
