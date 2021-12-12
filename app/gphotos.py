@@ -4,8 +4,10 @@ import string
 import unicodedata
 import urllib.request
 from datetime import datetime
+from threading import Thread
 from typing import Tuple
 
+from flask import flash
 from flask_login import current_user
 from gphotospy.album import Album as GPhotosAlbum
 from gphotospy.media import Media, MediaItem, date
@@ -45,33 +47,40 @@ def _get_album_date_range(album_id: int) -> Tuple[datetime, datetime]:
 
 
 def cache_albums(refresh_thumbnails=False, refresh_dates=False):
-    album_manager = GPhotosAlbum(service)
-    current_ids = list()
-    for a in album_manager.list():
-        album = Album.query.filter_by(gphotos_id=a.get("id")).first()
-        if not album:
-            album = Album()
-        album.gphotos_id = a.get("id")
-        if not album.end_date or refresh_dates:
-            start_date, end_date = _get_album_date_range(album.gphotos_id)
-            album.start_date = start_date
-            album.end_date = end_date
-        current_ids.append(a.get("id"))
-        album.title = a.get("title")
-        album.url_title = normalize_for_url(a.get("title"))
-        album.items_count = a.get("mediaItemsCount")
-        db.session.add(album)
-        thumbnail = os.path.join(app.config["ALBUM_THUMB_PATH"], a.get("id") + ".jpg")
-        if not os.path.exists(thumbnail) or refresh_thumbnails:
-            urllib.request.urlretrieve(
-                a.get("coverPhotoBaseUrl") + "=w300-h200-c",
-                os.path.join(app.config["ALBUM_THUMB_PATH"], a.get("id") + ".jpg"),
-            )
+    Thread(target=_cache_albums_async, args=(app, refresh_thumbnails, refresh_dates)).start()
+    flash("Album refresh in progress")
 
-    # delete from db albums no longer in google photos
-    stmt = delete(Album).where(Album.gphotos_id.notin_(current_ids)).execution_options(synchronize_session="fetch")
-    db.session.execute(stmt)
-    db.session.commit()
+
+def _cache_albums_async(app, refresh_thumbnails=False, refresh_dates=False):
+    with app.app_context():
+        album_manager = GPhotosAlbum(service)
+        current_ids = list()
+        for a in album_manager.list():
+            album = Album.query.filter_by(gphotos_id=a.get("id")).first()
+            if not album:
+                album = Album()
+            album.gphotos_id = a.get("id")
+            if not album.end_date or refresh_dates:
+                start_date, end_date = _get_album_date_range(album.gphotos_id)
+                album.start_date = start_date
+                album.end_date = end_date
+            current_ids.append(a.get("id"))
+            album.title = a.get("title")
+            album.url_title = normalize_for_url(a.get("title"))
+            album.items_count = a.get("mediaItemsCount")
+            db.session.add(album)
+            thumbnail = os.path.join(app.config["ALBUM_THUMB_PATH"], a.get("id") + ".jpg")
+            if not os.path.exists(thumbnail) or refresh_thumbnails:
+                urllib.request.urlretrieve(
+                    a.get("coverPhotoBaseUrl") + "=w300-h200-c",
+                    os.path.join(app.config["ALBUM_THUMB_PATH"], a.get("id") + ".jpg"),
+                )
+            db.session.commit()
+
+        # delete from db albums no longer in google photos
+        stmt = delete(Album).where(Album.gphotos_id.notin_(current_ids)).execution_options(synchronize_session="fetch")
+        db.session.execute(stmt)
+        db.session.commit()
 
 
 @cache.memoize()
