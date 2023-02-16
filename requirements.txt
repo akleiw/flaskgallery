@@ -61,6 +61,6 @@ tomli==1.2.2
 typing-extensions==4.0.0
 uritemplate==3.0.1
 urllib3==1.26.5
-Werkzeug==1.0.1
+Werkzeug==2.2.3
 wrapt==1.13.3
 WTForms==2.3.3
