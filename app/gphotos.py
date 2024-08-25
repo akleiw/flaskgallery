@@ -40,10 +40,11 @@ def _get_album_date_range(album_id: int) -> Tuple[datetime, datetime]:
     creation_dates = tuple(
         item.metadata().get("creationTime") for item in get_media(album_id) if item.metadata().get("creationTime")
     )
-    start_date = min(creation_dates)
-    end_date = max(creation_dates)
-    fmt = "%Y-%m-%dT%H:%M:%SZ"
-    return (datetime.strptime(start_date, fmt), datetime.strptime(end_date, fmt))
+    start_date_str = min(creation_dates)
+    end_date_str = max(creation_dates)
+    start_date = datetime.fromisoformat(start_date_str.replace('Z', '+00:00')).replace(tzinfo=None)
+    end_date = datetime.fromisoformat(end_date_str.replace('Z', '+00:00')).replace(tzinfo=None)
+    return (start_date, end_date)
 
 
 def cache_albums(refresh_thumbnails=False, refresh_dates=False):
