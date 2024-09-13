@@ -1,6 +1,7 @@
+from urllib.parse import urlparse
+
 from flask import abort, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
-from werkzeug.urls import url_parse
 
 from app import Config, app, cache, db, gphotos, log, service
 from app.forms import LoginForm, RegistrationForm
@@ -29,6 +30,7 @@ def album(album_name):
 
 
 @app.route("/reload_albums", methods=["GET"])
+@login_required
 def reload_albums():
     """Delete and refresh cached albums from gphotos"""
     refresh_dates = request.args.get("dates") == "1"
