@@ -18,8 +18,13 @@
                 </a>
                 <h1 class="font-weight-light text-center text-lg-left flex-grow-1">{{ title }}</h1>
             </div>
-
-              <hr class="mt-2 mb-5">
+            <hr class="mt-2 mb-0">
+            <div class="mt-0 mb-5">{{ moment(album.start_date).format('ll') }}
+                {% if album.start_date.date() != album.end_date.date() %}
+                &ndash; {{ moment(album.end_date).format('ll') }}
+                {% endif %}
+            </div>
+            
   <div class="row text-center text-lg-left">
 
           {% for item in media %}

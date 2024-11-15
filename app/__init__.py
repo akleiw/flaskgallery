@@ -1,9 +1,9 @@
 import logging
 import os
 
-from config import Config
-from flask import Flask
+from flask import Flask, request
 from flask.logging import create_logger
+from flask_babel import Babel
 from flask_caching import Cache
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -11,12 +11,21 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from gphotospy import authorize
 
+from config import Config
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
 log = create_logger(app)
 
 moment = Moment(app)
+
+
+def get_locale():
+    return request.accept_languages.best_match(["pl", "en"])
+
+
+babel = Babel(app, locale_selector=get_locale)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

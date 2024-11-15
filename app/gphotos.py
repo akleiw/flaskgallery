@@ -42,17 +42,17 @@ def _get_album_date_range(album_id: int) -> Tuple[datetime, datetime]:
     )
     start_date_str = min(creation_dates)
     end_date_str = max(creation_dates)
-    start_date = datetime.fromisoformat(start_date_str.replace('Z', '+00:00')).replace(tzinfo=None)
-    end_date = datetime.fromisoformat(end_date_str.replace('Z', '+00:00')).replace(tzinfo=None)
+    start_date = datetime.fromisoformat(start_date_str.replace("Z", "+00:00")).replace(tzinfo=None)
+    end_date = datetime.fromisoformat(end_date_str.replace("Z", "+00:00")).replace(tzinfo=None)
     return (start_date, end_date)
 
 
-def cache_albums(refresh_thumbnails=False, refresh_dates=False):
+def cache_albums(refresh_thumbnails=True, refresh_dates=False):
     Thread(target=_cache_albums_async, args=(app, refresh_thumbnails, refresh_dates)).start()
     flash("Album refresh in progress")
 
 
-def _cache_albums_async(app, refresh_thumbnails=False, refresh_dates=False):
+def _cache_albums_async(app, refresh_thumbnails=True, refresh_dates=False):
     with app.app_context():
         album_manager = GPhotosAlbum(service)
         current_ids = list()

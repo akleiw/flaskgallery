@@ -1,11 +1,17 @@
 from urllib.parse import urlparse
 
-from flask import abort, flash, jsonify, redirect, render_template, request, url_for
+from flask import abort, flash, g, jsonify, redirect, render_template, request, url_for
+from flask_babel import get_locale
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import Config, app, cache, db, gphotos, log, service
 from app.forms import LoginForm, RegistrationForm
 from app.models import Album, Role, User
+
+
+@app.before_request
+def before_request():
+    g.locale = str(get_locale())
 
 
 @app.route("/index")
@@ -33,6 +39,8 @@ def album(album_name):
 @login_required
 def reload_albums():
     """Delete and refresh cached albums from gphotos"""
+    if not current_user.is_admin():
+        abort(403)
     refresh_dates = request.args.get("dates") == "1"
     gphotos.cache_albums(refresh_dates=refresh_dates)
     cache.delete_memoized(gphotos.get_media)
