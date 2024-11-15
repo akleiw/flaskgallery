@@ -33,6 +33,8 @@ def album(album_name):
 @login_required
 def reload_albums():
     """Delete and refresh cached albums from gphotos"""
+    if not current_user.is_admin():
+        abort(403)
     refresh_dates = request.args.get("dates") == "1"
     gphotos.cache_albums(refresh_dates=refresh_dates)
     cache.delete_memoized(gphotos.get_media)
