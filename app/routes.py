@@ -1,11 +1,17 @@
 from urllib.parse import urlparse
 
-from flask import abort, flash, jsonify, redirect, render_template, request, url_for
+from flask import abort, flash, g, jsonify, redirect, render_template, request, url_for
+from flask_babel import get_locale
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import Config, app, cache, db, gphotos, log, service
 from app.forms import LoginForm, RegistrationForm
 from app.models import Album, Role, User
+
+
+@app.before_request
+def before_request():
+    g.locale = str(get_locale())
 
 
 @app.route("/index")

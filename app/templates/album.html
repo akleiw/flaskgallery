@@ -20,9 +20,9 @@
             </div>
             <hr class="mt-2 mb-0">
             <div class="mt-0 mb-5">{{ moment(album.start_date).format('ll') }}
-                {%- if album.start_date.date() != album.end_date.date() -%}
-                &mdash;{{ moment(album.end_date).format('ll') }}
-                {%- endif %}
+                {% if album.start_date.date() != album.end_date.date() %}
+                &ndash; {{ moment(album.end_date).format('ll') }}
+                {% endif %}
             </div>
             
   <div class="row text-center text-lg-left">
